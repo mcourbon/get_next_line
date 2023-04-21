@@ -18,7 +18,6 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/uio.h>
-# include <limits.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
