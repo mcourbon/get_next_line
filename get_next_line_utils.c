@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shifterpro <shifterpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: mcourbon <mcourbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 10:05:40 by shifterpro        #+#    #+#             */
-/*   Updated: 2022/11/29 10:14:02 by shifterpro       ###   ########.fr       */
+/*   Updated: 2023/05/02 11:56:21 by mcourbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,63 +22,61 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	*ft_memcpy(void *dest, void *src, size_t size)
 {
-	size_t	i;
-	size_t	j;
+	size_t i;
+
+	i = 0;
+	if (dest == NULL && src == NULL)
+		return (NULL);
+	while (i < size)
+	{
+		((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+		i++;
+	}
+	return (dest);
+}
+
+char	*ft_free_strjoin(char *s1, char *s2)
+{
 	size_t	size1;
 	size_t	size2;
 	char	*str;
 
-	if (!s1 || !s2)
-		return (0);
-	i = -1;
-	j = -1;
+	if(!s1)
+	{
+		s1 = (char *)malloc(sizeof(char));
+		if (s1 == NULL)
+			return (NULL);
+		s1[0] = '\0';
+	}
+	if (s2 == NULL)
+		return (free(s1), NULL);
 	size1 = ft_strlen(s1);
 	size2 = ft_strlen(s2);
-	str = malloc(sizeof(*s1) * (size1 + size2 + 1));
+	str = malloc(sizeof(char) * (size1 + size2 + 1));
 	if (!str)
-		return (0);
-	while (++i < size1)
-		str[i] = s1[i];
-	while (++j < size2)
-		str[i + j] = s2[j];
-	str[i + j] = 0;
+		return(free(s1), NULL);
+	ft_memcpy(str, s1, size1);
+	ft_memcpy(str + size1, s2, size2);
+	str[size1 + size2] = 0;
+	free(s1);
 	return (str);
 }
 
-void	ft_bzero(void *str, size_t n)
+int	check_byteread_and_linebreak(char *str, int byte_read)
 {
-	size_t	i;
+	int		i;
 
 	i = 0;
-	while (i < n)
-	{
-		*(char *)(str + i) = 0;
-		i++;
-	}
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*zero;
-
-	zero = (void *)malloc(nmemb * size);
-	if (!zero)
+	if (str == NULL)
 		return (0);
-	ft_bzero(zero, size * nmemb);
-	return (zero);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	size_t	i;
-
-	i = 0;
-	while (i <= ft_strlen(s))
+	if (byte_read == 0)
+		return (1);
+	while (str[i] != 0)
 	{
-		if (s[i] == (char)c)
-			return (&((char *)s)[i]);
+		if (str[i] == '\n')
+			return (1);
 		i++;
 	}
 	return (0);
