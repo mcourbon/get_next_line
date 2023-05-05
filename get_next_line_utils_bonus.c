@@ -6,7 +6,7 @@
 /*   By: mcourbon <mcourbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 10:05:40 by shifterpro        #+#    #+#             */
-/*   Updated: 2023/05/02 12:05:55 by mcourbon         ###   ########.fr       */
+/*   Updated: 2023/05/04 11:25:05 by mcourbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(const char *s)
 
 void	*ft_memcpy(void *dest, void *src, size_t size)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (dest == NULL && src == NULL)
@@ -43,7 +43,7 @@ char	*ft_free_strjoin(char *s1, char *s2)
 	size_t	size2;
 	char	*str;
 
-	if(!s1)
+	if (!s1)
 	{
 		s1 = (char *)malloc(sizeof(char));
 		if (s1 == NULL)
@@ -56,7 +56,7 @@ char	*ft_free_strjoin(char *s1, char *s2)
 	size2 = ft_strlen(s2);
 	str = malloc(sizeof(char) * (size1 + size2 + 1));
 	if (!str)
-		return(free(s1), NULL);
+		return (free(s1), NULL);
 	ft_memcpy(str, s1, size1);
 	ft_memcpy(str + size1, s2, size2);
 	str[size1 + size2] = 0;
